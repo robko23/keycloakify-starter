@@ -14,18 +14,15 @@
         "build-keycloak-theme": "yarn build && keycloakify",
         "storybook": "start-storybook -p 6006"
     },
-    "keycloakify": {
-        "extraThemeProperties": [ 
-            "foo=bar"
-        ],
-        "extraThemeNames": [
-            "keycloakify-starter-variant-1"
-        ]
-    },
+    "keycloakify": {},
     "author": "u/garronej",
     "license": "MIT",
     "keywords": [],
     "dependencies": {
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.13.5",
+        "@tabler/icons-react": "^2.23.0",
         "evt": "^2.4.15",
         "jwt-decode": "^3.1.2",
         "keycloak-js": "^21.0.1",
@@ -36,11 +33,6 @@
         "tsafe": "^1.6.0"
     },
     "devDependencies": {
-        "@types/node": "^15.3.1",
-        "@types/react": "18.0.9",
-        "@types/react-dom": "18.0.4",
-        "react-scripts": "5.0.1",
-        "typescript": "~4.7.0",
         "@storybook/addon-actions": "^6.5.16",
         "@storybook/addon-essentials": "^6.5.16",
         "@storybook/addon-interactions": "^6.5.16",
@@ -50,7 +42,15 @@
         "@storybook/node-logger": "^6.5.16",
         "@storybook/preset-create-react-app": "^4.1.2",
         "@storybook/react": "^6.5.16",
-        "@storybook/testing-library": "^0.0.13"
+        "@storybook/testing-library": "^0.0.13",
+        "@types/flat": "^5.0.2",
+        "@types/node": "^15.3.1",
+        "@types/react": "18.0.9",
+        "@types/react-dom": "18.0.4",
+        "flat": "^5.0.2",
+        "lodash": "^4.17.21",
+        "react-scripts": "5.0.1",
+        "typescript": "~4.7.0"
     },
     "eslintConfig": {
         "extends": [

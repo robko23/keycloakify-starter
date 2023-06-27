@@ -5,7 +5,6 @@ import { kcContext as kcAccountThemeContext } from "./keycloak-theme/account/kcC
 
 const KcLoginThemeApp = lazy(() => import("./keycloak-theme/login/KcApp"));
 const KcAccountThemeApp = lazy(() => import("./keycloak-theme/account/KcApp"));
-const App = lazy(() => import("./App"));
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
@@ -20,7 +19,10 @@ createRoot(document.getElementById("root")!).render(
                     return <KcAccountThemeApp kcContext={kcAccountThemeContext} />;
                 }
 
-                return <App />;
+                throw new Error(
+                    "This app is a Keycloak theme" +
+                    "It isn't meant to be deployed outside of Keycloak"
+                );
 
             })()}
         </Suspense>
