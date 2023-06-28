@@ -61,10 +61,10 @@ export default function KcApp(props: { kcContext: KcContext; }) {
 							return <WebauthAuthenticate {...{kcContext, i18n, classes}} Template={TemplateMui}
                                           doUseDefaultCss={true}/>
 						case "register.ftl":
-							return <Register {...{kcContext, i18n, Template, classes}} doUseDefaultCss={true}/>
+							return <Register {...{kcContext, i18n, classes}} doUseDefaultCss={true} Template={TemplateMui}/>
 						case "register-user-profile.ftl":
-							return <RegisterUserProfile {...{kcContext, i18n, Template, classes}}
-														doUseDefaultCss={true}/>
+							return <RegisterUserProfile {...{kcContext, i18n, classes}}
+														doUseDefaultCss={true} Template={TemplateMui}/>
 						case "terms.ftl":
 							return <Terms {...{kcContext, i18n, Template, classes}} doUseDefaultCss={true}/>
 						case "info.ftl":
