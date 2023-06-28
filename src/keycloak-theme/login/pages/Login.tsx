@@ -1,23 +1,31 @@
-import { Button, IconButton, Tooltip, Typography } from "@mui/material"
+import {
+	Button,
+	Checkbox,
+	FormControlLabel,
+	FormGroup,
+	IconButton,
+	TextField,
+	Tooltip,
+	Typography
+} from "@mui/material"
+
+import { IconBrandGithub, IconBrandGoogle, IconBrandWindows, IconFileUnknown } from '@tabler/icons-react'
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName"
 import type { PageProps } from "keycloakify/login/pages/PageProps"
-import { clsx } from "keycloakify/tools/clsx"
 import { useConstCallback } from "keycloakify/tools/useConstCallback"
 import { type FormEventHandler, useMemo, useState } from "react"
 import type { I18n } from "../i18n"
 import type { KcContext } from "../kcContext"
 
-import {IconBrandGoogle, IconBrandWindows, IconBrandGithub, IconFileUnknown} from '@tabler/icons-react'
-
 function mapProviderToIcon(provider: string) {
-	switch (provider) {
-        case "google":
-            return IconBrandGoogle
+	switch ( provider ) {
+		case "google":
+			return IconBrandGoogle
 		case "microsoft":
 			return IconBrandWindows
 		case "github":
 			return IconBrandGithub
-    }
+	}
 	return IconFileUnknown
 }
 
@@ -49,7 +57,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 		formElement.submit()
 	})
 
-	const infoNode = useMemo(() => {
+	const registrationNode = useMemo(() => {
 		if ( !realm.password || !realm.registrationAllowed || registrationDisabled ) {
 			return null
 		}
@@ -60,6 +68,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 					component={"a"}
 					tabIndex={6}
 					variant={"contained"}
+					color={"secondary"}
 					href={url.registrationUrl}
 				>{msg("doRegister")}</Button>
 			</div>
@@ -67,23 +76,23 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 	}, [ realm.password, realm.registrationAllowed, registrationDisabled, url.registrationUrl ])
 
 	const socialProvidersNode = useMemo(() => {
-		if (!realm.password || social.providers === undefined || social.providers.length === 0) {
+		if ( !realm.password || social.providers === undefined || social.providers.length === 0 ) {
 			return null
 		}
 
 		const nodes = social.providers.map(provider => {
 			const Icon = mapProviderToIcon(provider.alias)
-            return (
+			return (
 				<Tooltip title={provider.displayName} describeChild>
 					<IconButton
 						key={provider.providerId}
 						component={"a"}
 						href={provider.loginUrl}
 					>
-						<Icon stroke={2.3} />
+						<Icon stroke={2.3}/>
 					</IconButton>
 				</Tooltip>
-            )
+			)
 		})
 
 		return (
@@ -91,7 +100,52 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 				{nodes}
 			</div>
 		)
-	}, [realm.password, social.providers])
+	}, [ realm.password, social.providers ])
+
+	const resetPasswordNode = useMemo(() => {
+		if ( !realm.resetPasswordAllowed ) {
+			return null
+		}
+		return (
+			<Button
+				component={"a"}
+				href={url.loginResetCredentialsUrl}
+				variant={"outlined"}
+				color={"secondary"}
+				tabIndex={5}
+			>
+				{msg("doForgotPassword")}
+			</Button>
+		)
+	}, [ realm.resetPasswordAllowed, url.loginResetCredentialsUrl ])
+
+	const rememberMeNode = useMemo(() => {
+		if ( !realm.rememberMe || usernameEditDisabled ) {
+			return null
+		}
+		return (
+			<FormGroup>
+				<FormControlLabel
+					tabIndex={3}
+					id="rememberMe"
+					name="rememberMe"
+					control={<Checkbox
+						defaultChecked={login.rememberMe === "on"}
+						disabled={login.rememberMe === "on"}
+					/>}
+					label={msg("rememberMe")}
+				/>
+			</FormGroup>
+		)
+	}, [ realm.rememberMe, login.rememberMe, usernameEditDisabled ])
+
+	const usernameLabel = !realm.loginWithEmailAllowed
+		? "username"
+		: realm.registrationEmailAsUsername
+			? "email"
+			: "usernameOrEmail"
+
+	const usernameAutoCompleteHelper: typeof usernameLabel = usernameLabel === "usernameOrEmail" ? "username" : usernameLabel
 
 	return (
 		<Template
@@ -99,118 +153,53 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 			displayInfo={social.displayInfo}
 			displayWide={realm.password && social.providers !== undefined}
 			headerNode={msg("doLogIn")}
-			infoNode={infoNode}
+			infoNode={registrationNode}
 		>
-			<div id="kc-form" className={clsx(
-				realm.password && social.providers !== undefined && getClassName("kcContentWrapperClass"))}>
+			<div id="kc-form">
 				{realm.password && (
 					<form id="kc-form-login" onSubmit={onSubmit} action={url.loginAction} method="post">
-						<div className={getClassName("kcFormGroupClass")}>
-							{(() => {
-								const label = !realm.loginWithEmailAllowed
-									? "username"
-									: realm.registrationEmailAsUsername
-										? "email"
-										: "usernameOrEmail"
-
-								const autoCompleteHelper: typeof label = label === "usernameOrEmail" ? "username" : label
-
-								return (
-									<>
-										<label htmlFor={autoCompleteHelper}
-											   className={getClassName("kcLabelClass")}>
-											{msg(label)}
-										</label>
-										<input
-											tabIndex={1}
-											id={autoCompleteHelper}
-											className={getClassName("kcInputClass")}
-											//NOTE: This is used by Google Chrome auto fill so we use it to tell
-											//the browser how to pre fill the form but before submit we put it back
-											//to username because it is what keycloak expects.
-											name={autoCompleteHelper}
-											defaultValue={login.username ?? ""}
-											type="text"
-											{...(usernameEditDisabled
-												? {"disabled": true}
-												: {
-													"autoFocus": true,
-													"autoComplete": "off"
-												})}
-										/>
-									</>
-								)
-							})()}
+						<TextField
+							tabIndex={1}
+							id={usernameAutoCompleteHelper}
+							name={usernameAutoCompleteHelper}
+							defaultValue={login.username ?? ""}
+							type={"text"}
+							disabled={usernameEditDisabled}
+							autoFocus={!usernameEditDisabled}
+							autoComplete={usernameEditDisabled ? "off" : undefined}
+							label={msg(usernameLabel)}
+							fullWidth
+						/>
+						<TextField
+							id="password"
+							fullWidth
+							tabIndex={2}
+							name="password"
+							type="password"
+							autoComplete="off"
+							label={msg("password")}
+						/>
+						<div id="kc-form-options">
+							{rememberMeNode}
 						</div>
-						<div className={getClassName("kcFormGroupClass")}>
-							<label htmlFor="password" className={getClassName("kcLabelClass")}>
-								{msg("password")}
-							</label>
-							<input
-								tabIndex={2}
-								id="password"
-								className={getClassName("kcInputClass")}
-								name="password"
-								type="password"
-								autoComplete="off"
-							/>
-						</div>
-						<div className={clsx(getClassName("kcFormGroupClass"), getClassName("kcFormSettingClass"))}>
-							<div id="kc-form-options">
-								{realm.rememberMe && !usernameEditDisabled && (
-									<div className="checkbox">
-										<label>
-											<input
-												tabIndex={3}
-												id="rememberMe"
-												name="rememberMe"
-												type="checkbox"
-												{...(login.rememberMe === "on"
-													? {
-														"checked": true
-													}
-													: {})}
-											/>
-											{msg("rememberMe")}
-										</label>
-									</div>
-								)}
-							</div>
-							<div className={getClassName("kcFormOptionsWrapperClass")}>
-								{realm.resetPasswordAllowed && (
-									<span>
-                                            <a tabIndex={5} href={url.loginResetCredentialsUrl}>
-                                                {msg("doForgotPassword")}
-                                            </a>
-                                        </span>
-								)}
-							</div>
-						</div>
+						{resetPasswordNode}
 						<div id="kc-form-buttons" className={getClassName("kcFormGroupClass")}>
 							<input
 								type="hidden"
 								id="id-hidden-input"
 								name="credentialId"
-								{...(auth?.selectedCredential !== undefined
-									? {
-										"value": auth.selectedCredential
-									}
-									: {})}
+								value={auth.selectedCredential === undefined ? "" : auth.selectedCredential}
 							/>
-							<input
-								tabIndex={4}
-								className={clsx(
-									getClassName("kcButtonClass"),
-									getClassName("kcButtonPrimaryClass"),
-									getClassName("kcButtonBlockClass"),
-									getClassName("kcButtonLargeClass")
-								)}
-								name="login"
-								id="kc-login"
+							<Button
 								type="submit"
-								value={msgStr("doLogIn")}
+								name="login"
+								variant="contained"
 								disabled={isLoginButtonDisabled}
-							/>
+								tabIndex={4}
+								id="kc-login"
+							>
+								{msgStr("doLogIn")}
+							</Button>
 						</div>
 					</form>
 				)}

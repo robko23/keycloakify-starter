@@ -19,10 +19,12 @@ const meta: Meta<typeof PageStory> = {
 				password: true,
 				registrationAllowed: true,
 				resetPasswordAllowed: true,
-				internationalizationEnabled: true
+				internationalizationEnabled: true,
+				registrationEmailAsUsername: false,
+				loginWithEmailAllowed: true
 			},
 			login: {
-				username: "test@example.com"
+				username: "test@example.com",
 			},
 			usernameEditDisabled: false,
 			message: {
@@ -34,10 +36,16 @@ const meta: Meta<typeof PageStory> = {
 	argTypes: {
 		'kcContext.message.type': {
 			control: {
-                type: "select",
-                options: [ "info", "error", "success", "warning" ]
-            }
+				type: "select",
+				options: [ "info", "error", "success", "warning" ]
+			}
 		},
+		'kcContext.login.rememberMe': {
+			control: {
+				type: "select",
+				options: [ "on", undefined ]
+			}
+		}
 	}
 }
 export default meta
