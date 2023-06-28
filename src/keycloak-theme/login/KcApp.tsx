@@ -14,6 +14,7 @@ const TemplateMui = lazy(() => import("./TemplateMui"))
 //console.log(`Values passed by the main app in the URL parameter:`, { foo, bar });
 
 const Login = lazy(() => import("./pages/Login"))
+const LoginUsername = lazy(() => import("./pages/LoginUsername"))
 // If you can, favor register-user-profile.ftl over register.ftl, see:
 // https://docs.keycloakify.dev/realtime-input-validation
 const Register = lazy(() => import("./pages/Register"))
@@ -48,6 +49,9 @@ export default function KcApp(props: { kcContext: KcContext; }) {
 						case "login.ftl":
 							return <Login {...{kcContext, i18n, classes}} Template={TemplateMui}
 										  doUseDefaultCss={true}/>
+						case "login-username.ftl":
+							return <LoginUsername {...{kcContext, i18n, classes}} Template={TemplateMui}
+                                          doUseDefaultCss={true}/>
 						case "register.ftl":
 							return <Register {...{kcContext, i18n, Template, classes}} doUseDefaultCss={true}/>
 						case "register-user-profile.ftl":

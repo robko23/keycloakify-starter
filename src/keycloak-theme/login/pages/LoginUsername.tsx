@@ -10,13 +10,15 @@ import {
 } from "@mui/material"
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName"
 import type { PageProps } from "keycloakify/login/pages/PageProps"
+import { clsx } from "keycloakify/tools/clsx"
 import { useConstCallback } from "keycloakify/tools/useConstCallback"
-import { type FormEventHandler, useMemo, useState } from "react"
+import type { FormEventHandler } from "react"
+import { useMemo, useState } from "react"
 import { mapProviderToIcon } from "../components/Login/mapProviderToIcon"
 import type { I18n } from "../i18n"
 import type { KcContext } from "../kcContext"
 
-export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
+export default function LoginUsername(props: PageProps<Extract<KcContext, { pageId: "login-username.ftl" }>, I18n>) {
 	const {kcContext, i18n, doUseDefaultCss, Template, classes} = props
 
 	const {getClassName} = useGetClassName({
@@ -24,7 +26,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 		classes
 	})
 
-	const {social, realm, url, usernameEditDisabled, login, auth, registrationDisabled} = kcContext
+	const {social, realm, url, usernameHidden, login, registrationDisabled} = kcContext
 
 	const {msg, msgStr} = i18n
 
@@ -89,25 +91,8 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 		)
 	}, [ realm.password, social.providers ])
 
-	const resetPasswordNode = useMemo(() => {
-		if ( !realm.resetPasswordAllowed ) {
-			return null
-		}
-		return (
-			<Button
-				component={"a"}
-				href={url.loginResetCredentialsUrl}
-				variant={"outlined"}
-				color={"secondary"}
-				tabIndex={5}
-			>
-				{msg("doForgotPassword")}
-			</Button>
-		)
-	}, [ realm.resetPasswordAllowed, url.loginResetCredentialsUrl ])
-
 	const rememberMeNode = useMemo(() => {
-		if ( !realm.rememberMe || usernameEditDisabled ) {
+		if ( !realm.rememberMe || usernameHidden ) {
 			return null
 		}
 		return (
@@ -124,7 +109,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 				/>
 			</FormGroup>
 		)
-	}, [ realm.rememberMe, login.rememberMe, usernameEditDisabled ])
+	}, [realm.rememberMe, login.rememberMe, usernameHidden])
 
 	const usernameLabel = !realm.loginWithEmailAllowed
 		? "username"
@@ -142,58 +127,53 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 			headerNode={msg("doLogIn")}
 			infoNode={registrationNode}
 		>
-			<div id="kc-form">
-				{realm.password && (
-					<form id="kc-form-login" onSubmit={onSubmit} action={url.loginAction} method="post">
-						<TextField
-							tabIndex={1}
-							id={usernameAutoCompleteHelper}
-							//NOTE: This is used by Google Chrome auto fill so we use it to
-							// tell
-							//the browser how to pre fill the form but before submit we put it
-							// back to username because it is what keycloak expects.
-							name={usernameAutoCompleteHelper}
-							defaultValue={login.username ?? ""}
-							type={"text"}
-							disabled={usernameEditDisabled}
-							autoFocus={!usernameEditDisabled}
-							autoComplete={usernameEditDisabled ? "off" : undefined}
-							label={msg(usernameLabel)}
-							fullWidth
-						/>
-						<TextField
-							id="password"
-							fullWidth
-							tabIndex={2}
-							name="password"
-							type="password"
-							autoComplete="off"
-							label={msg("password")}
-						/>
-						<div id="kc-form-options">
-							{rememberMeNode}
-						</div>
-						{resetPasswordNode}
-						<div id="kc-form-buttons" className={getClassName("kcFormGroupClass")}>
-							<input
-								type="hidden"
-								id="id-hidden-input"
-								name="credentialId"
-								value={auth.selectedCredential === undefined ? "" : auth.selectedCredential}
-							/>
-							<Button
-								type="submit"
-								name="login"
-								variant="contained"
-								disabled={isLoginButtonDisabled}
-								tabIndex={4}
-								id="kc-login"
-							>
-								{msgStr("doLogIn")}
-							</Button>
-						</div>
-					</form>
-				)}
+			<div id="kc-form" className={clsx(
+				realm.password && social.providers !== undefined && getClassName("kcContentWrapperClass"))}>
+				<div
+					id="kc-form-wrapper"
+					className={clsx(
+						realm.password &&
+						social.providers && [ getClassName("kcFormSocialAccountContentClass"), getClassName(
+							"kcFormSocialAccountClass") ]
+					)}
+				>
+					{realm.password && (
+						<form id="kc-form-login" onSubmit={onSubmit} action={url.loginAction} method="post">
+							{!usernameHidden && (
+								<TextField
+									tabIndex={1}
+									id={usernameAutoCompleteHelper}
+									//NOTE: This is used by Google Chrome auto fill so we use it to
+									// tell
+									//the browser how to pre fill the form but before submit we put it
+									// back to username because it is what keycloak expects.
+									name={usernameAutoCompleteHelper}
+									defaultValue={login.username ?? ""}
+									type={"text"}
+									autoFocus
+									autoComplete={"off"}
+									label={msg(usernameLabel)}
+									fullWidth
+								/>
+							)}
+							<div id="kc-form-options">
+								{rememberMeNode}
+							</div>
+							<div id="kc-form-buttons">
+								<Button
+									type="submit"
+									name="login"
+									variant="contained"
+									disabled={isLoginButtonDisabled}
+									tabIndex={4}
+									id="kc-login"
+								>
+									{msgStr("doLogIn")}
+								</Button>
+							</div>
+						</form>
+					)}
+				</div>
 				{socialProvidersNode}
 			</div>
 		</Template>
