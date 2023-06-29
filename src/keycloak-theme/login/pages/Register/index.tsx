@@ -20,6 +20,7 @@ export default function Register(props: PageProps<Extract<KcContext, { pageId: "
 	return (
 		<Template {...{kcContext, i18n, doUseDefaultCss, classes}} headerNode={msg("registerTitle")}>
 			<form id="kc-register-form" action={url.registrationAction}
+				  data-testid="kc-register-form"
 				  method="post">
 
 				<TextField
@@ -31,6 +32,7 @@ export default function Register(props: PageProps<Extract<KcContext, { pageId: "
 					name="firstName"
 					defaultValue={register.formData.firstName ?? ""}
 					error={messagesPerField.existsError("firstName")}
+					data-testid="kc-firstName"
 				/>
 
 				<TextField
@@ -42,6 +44,7 @@ export default function Register(props: PageProps<Extract<KcContext, { pageId: "
 					name="lastName"
 					defaultValue={register.formData.lastName ?? ""}
 					error={messagesPerField.existsError("lastName")}
+					data-testid="kc-lastName"
 				/>
 
 				<TextField
@@ -53,6 +56,7 @@ export default function Register(props: PageProps<Extract<KcContext, { pageId: "
 					name="email"
 					defaultValue={register.formData.email ?? ""}
 					error={messagesPerField.existsError("email")}
+					data-testid="kc-email"
 				/>
 
 
@@ -67,6 +71,7 @@ export default function Register(props: PageProps<Extract<KcContext, { pageId: "
 						autoComplete={"username"}
 						defaultValue={register.formData.lastName ?? ""}
 						error={messagesPerField.existsError("username")}
+						data-testid="kc-username"
 					/>
 				)}
 
@@ -82,24 +87,31 @@ export default function Register(props: PageProps<Extract<KcContext, { pageId: "
 							label={msg("password")}
 							variant={"outlined"}
 							error={messagesPerField.existsError("password")}
+							data-testid="kc-password"
 						/>
 
 						<TextField
 							type="password"
 							fullWidth
-                            id={"password-confirm"}
-                            name={"password-confirm"}
-                            autoComplete={"new-password"}
-                            label={msg("passwordConfirm")}
-                            variant={"outlined"}
-                            error={messagesPerField.existsError("password-confirm")}
+							id={"password-confirm"}
+							name={"password-confirm"}
+							autoComplete={"new-password"}
+							label={msg("passwordConfirm")}
+							variant={"outlined"}
+							error={messagesPerField.existsError("password-confirm")}
+							data-testid="kc-password-confirm"
 						/>
 					</>
 				)}
 				{recaptchaRequired && (
 					<div className="form-group">
 						<div className={getClassName("kcInputWrapperClass")}>
-							<div className="g-recaptcha" data-size="compact" data-sitekey={recaptchaSiteKey}></div>
+							<div
+								className="g-recaptcha"
+								data-size="compact"
+								data-sitekey={recaptchaSiteKey}
+								data-testid="google-recaptcha"
+							></div>
 						</div>
 					</div>
 				)}
@@ -109,6 +121,7 @@ export default function Register(props: PageProps<Extract<KcContext, { pageId: "
 						color="secondary"
 						component="a"
 						href={url.loginUrl}
+						data-testid="kc-login-button"
 					>
 						{msg("backToLogin")}
 					</Button>
@@ -119,6 +132,7 @@ export default function Register(props: PageProps<Extract<KcContext, { pageId: "
 						type="submit"
 						variant="contained"
 						id="kc-register"
+						data-testid="kc-register-button"
 					>
 						{msgStr("doRegister")}
 					</Button>
