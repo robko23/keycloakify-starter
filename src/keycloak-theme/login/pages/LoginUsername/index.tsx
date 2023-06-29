@@ -59,6 +59,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
 					variant={"contained"}
 					color={"secondary"}
 					href={url.registrationUrl}
+					data-testid="kc-register-button"
 				>{msg("doRegister")}</Button>
 			</div>
 		)
@@ -72,11 +73,12 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
 		const nodes = social.providers.map(provider => {
 			const Icon = mapProviderToIcon(provider.alias)
 			return (
-				<Tooltip title={provider.displayName} describeChild>
+				<Tooltip title={provider.displayName} describeChild key={provider.providerId}>
 					<IconButton
 						key={provider.providerId}
 						component={"a"}
 						href={provider.loginUrl}
+						data-testid={`kc-social-provider-${provider.providerId}`}
 					>
 						<Icon stroke={2.3}/>
 					</IconButton>
@@ -106,6 +108,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
 						disabled={login.rememberMe === "on"}
 					/>}
 					label={msg("rememberMe")}
+					data-testid="kc-remember-me-checkbox"
 				/>
 			</FormGroup>
 		)
@@ -138,7 +141,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
 					)}
 				>
 					{realm.password && (
-						<form id="kc-form-login" onSubmit={onSubmit} action={url.loginAction} method="post">
+						<form id="kc-form-login" onSubmit={onSubmit} action={url.loginAction} method="post" data-testid="kc-form-login">
 							{!usernameHidden && (
 								<TextField
 									tabIndex={1}
@@ -154,6 +157,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
 									autoComplete={"off"}
 									label={msg(usernameLabel)}
 									fullWidth
+									data-testid={`kc-${usernameLabel}`}
 								/>
 							)}
 							<div id="kc-form-options">
@@ -167,6 +171,7 @@ export default function LoginUsername(props: PageProps<Extract<KcContext, { page
 									disabled={isLoginButtonDisabled}
 									tabIndex={4}
 									id="kc-login"
+									data-testid="kc-login-button"
 								>
 									{msgStr("doLogIn")}
 								</Button>

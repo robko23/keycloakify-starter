@@ -1,12 +1,19 @@
 import { render, screen, waitFor } from "@testing-library/react"
-import { describe, it } from "vitest"
+import { it, describe } from "vitest"
 import { createPageStory } from "../../createPageStory"
 
 const {PageStory} = createPageStory({
-	pageId: "login.ftl"
+	pageId: "login-username.ftl"
 })
+describe("LoginUsername", () => {
+	it('renders', async () => {
 
-describe("Login", () => {
+		render(<PageStory/>)
+
+		expect(await screen.findByTestId("kc-form-login")).toBeInTheDocument()
+		expect(await screen.findByTestId("kc-login-button")).toBeInTheDocument()
+	})
+
 	it("renders register button", async () => {
 		render(<PageStory kcContext={{
 			realm: {
@@ -86,34 +93,12 @@ describe("Login", () => {
 
 	})
 
-	it("renders reset password button", async () => {
-		render(<PageStory kcContext={{
-			realm: {
-				resetPasswordAllowed: true
-			}
-		}}/>)
-
-		expect(await screen.findByTestId("kc-reset-password-button")).toBeInTheDocument()
-	})
-
-	it("does not render reset password button", async () => {
-		render(<PageStory kcContext={{
-			realm: {
-				resetPasswordAllowed: false
-			}
-		}}/>)
-
-		await waitFor(() => {
-			expect(screen.queryByTestId("kc-reset-password-button")).not.toBeInTheDocument()
-		})
-	})
-
 	it("renders remember me checkbox", async () => {
 		render(<PageStory kcContext={{
 			realm: {
 				rememberMe: true
 			},
-			usernameEditDisabled: false
+			usernameHidden: false
 		}}/>)
 
 		expect(await screen.findByTestId("kc-remember-me-checkbox")).toBeInTheDocument()
@@ -124,7 +109,7 @@ describe("Login", () => {
 			realm: {
 				rememberMe: false
 			},
-			usernameEditDisabled: false
+			usernameHidden: false
 		}}/>)
 
 		await waitFor(() => {
@@ -132,25 +117,17 @@ describe("Login", () => {
 		})
 	})
 
-	it("does not render remember me checkbox (usernameEditDisabled = true)", async () => {
+	it("does not render remember me checkbox (usernameHidden = true)", async () => {
 		render(<PageStory kcContext={{
 			realm: {
 				rememberMe: true
 			},
-			usernameEditDisabled: true
+			usernameHidden: true
 		}}/>)
 
 		await waitFor(() => {
 			expect(screen.queryByTestId("kc-remember-me-checkbox")).not.toBeInTheDocument()
 		})
-	})
-
-	it("renders login form", async () => {
-		render(<PageStory/>)
-
-		expect(await screen.findByTestId("kc-form-login")).toBeInTheDocument()
-		expect(await screen.findByTestId("kc-login-button")).toBeInTheDocument()
-		expect(await screen.findByTestId("kc-password")).toBeInTheDocument()
 	})
 
 	it("renders login form (username)", async () => {
@@ -164,22 +141,22 @@ describe("Login", () => {
 
 	it("renders login form (email)", async () => {
 		render(<PageStory kcContext={{
-            realm: {
-                loginWithEmailAllowed: true,
+			realm: {
+				loginWithEmailAllowed: true,
 				registrationEmailAsUsername: true
-            }
-        }}/>)
-        expect(await screen.findByTestId("kc-email")).toBeInTheDocument()
+			}
+		}}/>)
+		expect(await screen.findByTestId("kc-email")).toBeInTheDocument()
 	})
 
 	it("renders login form (usernameOrEmail)", async () => {
 		render(<PageStory kcContext={{
-            realm: {
-                loginWithEmailAllowed: true,
-                registrationEmailAsUsername: false,
-            }
-        }}/>)
-        expect(await screen.findByTestId("kc-usernameOrEmail")).toBeInTheDocument()
+			realm: {
+				loginWithEmailAllowed: true,
+				registrationEmailAsUsername: false,
+			}
+		}}/>)
+		expect(await screen.findByTestId("kc-usernameOrEmail")).toBeInTheDocument()
 	})
 
 	it("renders login form (password = false)", async () => {
@@ -196,42 +173,5 @@ describe("Login", () => {
 			// eslint-disable-next-line testing-library/no-wait-for-multiple-assertions
 			expect(screen.queryByTestId("kc-login-button")).not.toBeInTheDocument()
 		})
-	})
-})
-
-describe("Template", () => {
-	it("renders alert", async () => {
-		const alertText = "TESTING ALERT TEXT"
-		render(<PageStory kcContext={{
-			message: {
-				type: "error",
-				summary: alertText
-			}
-		}}/>)
-
-		expect(await screen.findByText(alertText)).toBeInTheDocument()
-		expect(await screen.findByTestId("kc-header-message-error")).toBeInTheDocument()
-	})
-
-	it("does not render alert", async () => {
-		render(<PageStory kcContext={{
-			message: undefined
-		}}/>)
-
-		await waitFor(() => {
-			const el = screen.queryByTestId("kc-header-message-error")
-			expect(el).not.toBeInTheDocument()
-		})
-	})
-
-	it("renders realm name", async () => {
-		render(<PageStory kcContext={{
-			realm: {
-				displayNameHtml: "Test Realm"
-			}
-		}}/>)
-
-		expect(await screen.findByText("Test Realm")).toBeInTheDocument()
-		expect(await screen.findByTestId("kc-header-realm-name")).toBeInTheDocument()
 	})
 })
