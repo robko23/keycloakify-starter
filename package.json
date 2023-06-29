@@ -12,7 +12,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "build-keycloak-theme": "yarn build && keycloakify",
-        "storybook": "start-storybook -p 6006"
+        "storybook": "start-storybook -p 6006",
+        "test": "vitest"
     },
     "keycloakify": {},
     "author": "u/garronej",
@@ -43,14 +44,19 @@
         "@storybook/preset-create-react-app": "^4.1.2",
         "@storybook/react": "^6.5.16",
         "@storybook/testing-library": "^0.0.13",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^14.0.0",
         "@types/flat": "^5.0.2",
         "@types/node": "^15.3.1",
         "@types/react": "18.0.9",
         "@types/react-dom": "18.0.4",
+        "@vitejs/plugin-react": "^4.0.1",
+        "@vitest/coverage-v8": "^0.32.2",
         "flat": "^5.0.2",
         "lodash": "^4.17.21",
         "react-scripts": "5.0.1",
-        "typescript": "~4.7.0"
+        "typescript": "~4.7.0",
+        "vitest": "^0.32.2"
     },
     "eslintConfig": {
         "extends": [

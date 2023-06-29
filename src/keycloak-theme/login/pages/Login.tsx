@@ -56,6 +56,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 					tabIndex={6}
 					variant={"contained"}
 					color={"secondary"}
+					data-testid={"kc-register-button"}
 					href={url.registrationUrl}
 				>{msg("doRegister")}</Button>
 			</div>
@@ -70,10 +71,11 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 		const nodes = social.providers.map(provider => {
 			const Icon = mapProviderToIcon(provider.alias)
 			return (
-				<Tooltip title={provider.displayName} describeChild>
+				<Tooltip title={provider.displayName} describeChild key={provider.providerId}>
 					<IconButton
 						key={provider.providerId}
 						component={"a"}
+						data-testid={`kc-social-provider-${provider.providerId}`}
 						href={provider.loginUrl}
 					>
 						<Icon stroke={2.3}/>
@@ -100,6 +102,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 				variant={"outlined"}
 				color={"secondary"}
 				tabIndex={5}
+				data-testid={"kc-reset-password-button"}
 			>
 				{msg("doForgotPassword")}
 			</Button>
@@ -121,6 +124,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 						disabled={login.rememberMe === "on"}
 					/>}
 					label={msg("rememberMe")}
+					data-testid={"kc-remember-me-checkbox"}
 				/>
 			</FormGroup>
 		)
@@ -144,7 +148,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 		>
 			<div id="kc-form">
 				{realm.password && (
-					<form id="kc-form-login" onSubmit={onSubmit} action={url.loginAction} method="post">
+					<form id="kc-form-login" onSubmit={onSubmit} action={url.loginAction} method="post" data-testid="kc-form-login">
 						<TextField
 							tabIndex={1}
 							id={usernameAutoCompleteHelper}
@@ -160,6 +164,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 							autoComplete={usernameEditDisabled ? "off" : undefined}
 							label={msg(usernameLabel)}
 							fullWidth
+							data-testid={`kc-${usernameLabel}`}
 						/>
 						<TextField
 							id="password"
@@ -169,6 +174,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 							type="password"
 							autoComplete="off"
 							label={msg("password")}
+							data-testid="kc-password"
 						/>
 						<div id="kc-form-options">
 							{rememberMeNode}
@@ -188,6 +194,7 @@ export default function Login(props: PageProps<Extract<KcContext, { pageId: "log
 								disabled={isLoginButtonDisabled}
 								tabIndex={4}
 								id="kc-login"
+								data-testid="kc-login-button"
 							>
 								{msgStr("doLogIn")}
 							</Button>

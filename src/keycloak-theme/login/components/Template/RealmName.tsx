@@ -6,7 +6,7 @@ export const RealmName = ({templateProps: props, getClassName}: CommonProps) => 
 	const displayNameHtml = props.kcContext.realm.displayNameHtml
 
 	return <>
-		<Typography textAlign={"center"} variant={"h1"} id={"kc-header"} className={getClassName("kcHeaderClass")}>
+		<Typography textAlign={"center"} variant={"h1"} id={"kc-header"} data-testid={"kc-header-realm-name"} className={getClassName("kcHeaderClass")}>
 			{msg("loginTitleHtml", displayNameHtml)}
 		</Typography>
 	</>

@@ -19,7 +19,7 @@ export const Header = ({templateProps: props, getClassName}: CommonProps) => {
 
 	// todo display required fields
 	const displayRequiredFieldsElement = displayRequiredFields ? (
-		<div className={clsx(getClassName("kcLabelWrapperClass"), "subtitle")}>
+		<div className={clsx(getClassName("kcLabelWrapperClass"), "subtitle")} data-testid="kc-header-display-required-fields">
                                 <span className="subtitle">
                                     <span className="required">*</span> {msg("requiredFields")}
                                 </span>
@@ -45,7 +45,7 @@ export const Header = ({templateProps: props, getClassName}: CommonProps) => {
 			{attemptedUsernameElement}
 		</>
 		: <>
-			<Typography textAlign="center" variant={"h2"} id={"kc-page-title"}>{headerNode}</Typography>
+			<Typography textAlign="center" variant={"h2"} id={"kc-page-title"} data-testid={"kc-page-title"}>{headerNode}</Typography>
 		</>
 
 	return <header className={getClassName("kcFormHeaderClass")}>

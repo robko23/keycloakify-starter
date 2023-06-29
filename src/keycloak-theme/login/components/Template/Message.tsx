@@ -14,7 +14,7 @@ export const Message = ({templateProps: props, getClassName}: CommonProps) => {
 		return null
 	}
 
-	return <Alert severity={message.type}>
+	return <Alert severity={message.type} data-testid={`kc-header-message-${message.type}`}>
 		{message.summary}
 	</Alert>
 }
