@@ -12,9 +12,9 @@ import { useGetClassName } from "keycloakify/login/lib/useGetClassName"
 import type { PageProps } from "keycloakify/login/pages/PageProps"
 import { useConstCallback } from "keycloakify/tools/useConstCallback"
 import { type FormEventHandler, useMemo, useState } from "react"
-import { mapProviderToIcon } from "../components/Login/mapProviderToIcon"
-import type { I18n } from "../i18n"
-import type { KcContext } from "../kcContext"
+import { mapProviderToIcon } from "../../components/Login/mapProviderToIcon"
+import type { I18n } from "../../i18n"
+import type { KcContext } from "../../kcContext"
 
 export default function Login(props: PageProps<Extract<KcContext, { pageId: "login.ftl" }>, I18n>) {
 	const {kcContext, i18n, doUseDefaultCss, Template, classes} = props

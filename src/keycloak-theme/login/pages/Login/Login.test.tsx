@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react"
 import { describe, it } from "vitest"
-import { createPageStory } from "../createPageStory"
+import { createPageStory } from "../../createPageStory"
 
 const {PageStory} = createPageStory({
 	pageId: "login.ftl"

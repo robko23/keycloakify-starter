@@ -1,12 +1,11 @@
 import { useMemo, useState } from "react"
-import { clsx } from "keycloakify/tools/clsx";
 import { useConstCallback } from "keycloakify/tools/useConstCallback";
 import type { FormEventHandler } from "react";
 import type { PageProps } from "keycloakify/login/pages/PageProps";
 import { useGetClassName } from "keycloakify/login/lib/useGetClassName";
-import type { KcContext } from "../kcContext";
-import type { I18n } from "../i18n";
-import { Button, Divider, TextField } from "@mui/material"
+import { Button, TextField } from "@mui/material"
+import { I18n } from "../../i18n"
+import { KcContext } from "../../kcContext"
 
 export default function LoginPassword(props: PageProps<Extract<KcContext, { "pageId": "login-password.ftl" }>, I18n>) {
     const { kcContext, i18n, doUseDefaultCss, Template, classes } = props;

@@ -1,6 +1,6 @@
-import { ComponentMeta, ComponentStory, Meta } from "@storybook/react"
+import { ComponentStory, Meta } from "@storybook/react"
 import flatten, { unflatten } from "flat"
-import { createPageStory } from "../createPageStory"
+import { createPageStory } from "../../createPageStory"
 
 // https://github.com/storybookjs/storybook/issues/12078#issuecomment-1036316861
 

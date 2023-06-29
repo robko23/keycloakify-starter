@@ -1,17 +1,17 @@
 import { ComponentStory, Meta } from '@storybook/react'
 import flatten, { unflatten } from 'flat'
-import { merge } from "lodash"
-import { createPageStory } from "../createPageStory"
+import { merge } from 'lodash'
+import { createPageStory } from "../../createPageStory"
 
 // https://github.com/storybookjs/storybook/issues/12078#issuecomment-1036316861
 
 const {PageStory} = createPageStory({
-	pageId: "login-username.ftl"
+	pageId: "login.ftl"
 })
 
 const meta: Meta<typeof PageStory> = {
 	component: PageStory,
-	title: "login/LoginUsername",
+	title: "login/Login",
 	args: flatten({
 		kcContext: {
 			realm: {
@@ -26,11 +26,11 @@ const meta: Meta<typeof PageStory> = {
 			login: {
 				username: "test@example.com",
 			},
+			usernameEditDisabled: false,
 			message: {
 				type: "info",
 				summary: "test message"
 			},
-			usernameHidden: false
 		}
 	}),
 	argTypes: {
