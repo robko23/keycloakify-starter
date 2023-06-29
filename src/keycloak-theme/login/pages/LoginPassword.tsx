@@ -43,6 +43,7 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { "pag
                 variant={"outlined"}
                 color={"secondary"}
                 tabIndex={5}
+                data-testid={"kc-reset-password-button"}
             >
                 {msg("doForgotPassword")}
             </Button>
@@ -53,7 +54,7 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { "pag
         <Template {...{ kcContext, i18n, doUseDefaultCss, classes }} headerNode={msg("doLogIn")}>
             <div id="kc-form">
                 <div id="kc-form-wrapper">
-                    <form id="kc-form-login" onSubmit={onSubmit} action={url.loginAction} method="post">
+                    <form id="kc-form-login" onSubmit={onSubmit} action={url.loginAction} method="post" data-testid="kc-form-login">
                         <TextField
                             id="password"
                             fullWidth
@@ -64,6 +65,7 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { "pag
                             autoFocus
                             label={msg("password")}
                             defaultValue={login.password ?? ""}
+                            data-testid="kc-password"
                         />
                         {resetPasswordNode}
                         <div id="kc-form-buttons" className={getClassName("kcFormGroupClass")}>
@@ -74,6 +76,7 @@ export default function LoginPassword(props: PageProps<Extract<KcContext, { "pag
                                 disabled={isLoginButtonDisabled}
                                 tabIndex={4}
                                 id="kc-login"
+                                data-testid="kc-login-button"
                             >
                                 {msgStr("doLogIn")}
                             </Button>
