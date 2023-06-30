@@ -17,12 +17,12 @@ const Login = lazy(() => import("./pages/Login"))
 const LoginUsername = lazy(() => import("./pages/LoginUsername"))
 const LoginPassword = lazy(() => import("./pages/LoginPassword"))
 const WebauthAuthenticate = lazy(() => import("./pages/WebauthnAuthenticate"))
+const Info = lazy(() => import("./pages/Info"))
 // If you can, favor register-user-profile.ftl over register.ftl, see:
 // https://docs.keycloakify.dev/realtime-input-validation
 const Register = lazy(() => import("./pages/Register"))
 const RegisterUserProfile = lazy(() => import("./pages/RegisterUserProfile"))
 const Terms = lazy(() => import("./pages/Terms"))
-const Info = lazy(() => import("keycloakify/login/pages/Info"))
 
 // This is like adding classes to theme.properties 
 // https://github.com/keycloak/keycloak/blob/11.0.3/themes/src/main/resources/theme/keycloak/login/theme.properties
@@ -53,23 +53,23 @@ export default function KcApp(props: { kcContext: KcContext; }) {
 										  doUseDefaultCss={true}/>
 						case "login-username.ftl":
 							return <LoginUsername {...{kcContext, i18n, classes}} Template={TemplateMui}
-                                          doUseDefaultCss={true}/>
+												  doUseDefaultCss={true}/>
 						case "login-password.ftl":
 							return <LoginPassword {...{kcContext, i18n, classes}} Template={TemplateMui}
-                                          doUseDefaultCss={true}/>
+												  doUseDefaultCss={true}/>
 						case "webauthn-authenticate.ftl":
 							return <WebauthAuthenticate {...{kcContext, i18n, classes}} Template={TemplateMui}
-                                          doUseDefaultCss={true}/>
+														doUseDefaultCss={true}/>
 						case "register.ftl":
-							return <Register {...{kcContext, i18n, classes}} doUseDefaultCss={true} Template={TemplateMui}/>
+							return <Register {...{kcContext, i18n, classes}} doUseDefaultCss={true}
+											 Template={TemplateMui}/>
 						case "register-user-profile.ftl":
 							return <RegisterUserProfile {...{kcContext, i18n, classes}}
 														doUseDefaultCss={true} Template={TemplateMui}/>
+						case "info.ftl":
+							return <Info {...{kcContext, i18n, classes}} doUseDefaultCss={false} Template={TemplateMui}/>
 						case "terms.ftl":
 							return <Terms {...{kcContext, i18n, Template, classes}} doUseDefaultCss={true}/>
-						case "info.ftl":
-							return <Info {...{kcContext, i18n, classes, Template}}
-										 doUseDefaultCss={false}/>
 						default:
 							return <Fallback {...{kcContext, i18n, classes}} Template={Template}
 											 doUseDefaultCss={true}/>
