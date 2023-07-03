@@ -23,6 +23,7 @@ const LoginResetPassword = lazy(() => import("./pages/LoginResetPassword"))
 const LoginVerifyEmail = lazy(() => import("./pages/LoginVerifyEmail"))
 const LoginOtp = lazy(() => import("./pages/LoginOtp"))
 const LoginUpdateProfile = lazy(() => import("./pages/LoginUpdateProfile"))
+const LoginUpdatePassword = lazy(() => import("./pages/LoginUpdatePassword"))
 // If you can, favor register-user-profile.ftl over register.ftl, see:
 // https://docs.keycloakify.dev/realtime-input-validation
 const Register = lazy(() => import("./pages/Register"))
@@ -88,6 +89,9 @@ export default function KcApp(props: { kcContext: KcContext; }) {
                                                        doUseDefaultCss={true} Template={TemplateMui}/>
 						case "login-update-profile.ftl":
 							return <LoginUpdateProfile {...{kcContext, i18n, classes}}
+                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+						case "login-update-password.ftl":
+							return <LoginUpdatePassword {...{kcContext, i18n, classes}}
                                                        doUseDefaultCss={true} Template={TemplateMui}/>
 						case "terms.ftl":
 							return <Terms {...{kcContext, i18n, Template, classes}} doUseDefaultCss={true}/>
