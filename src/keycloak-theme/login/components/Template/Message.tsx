@@ -15,6 +15,10 @@ export const Message = ({templateProps: props, getClassName}: CommonProps) => {
 	}
 
 	return <Alert severity={message.type} data-testid={`kc-header-message-${message.type}`}>
-		{message.summary}
+		<span
+			dangerouslySetInnerHTML={{
+				__html: message.summary
+			}}
+		/>
 	</Alert>
 }
