@@ -1,13 +1,15 @@
-import { Typography } from "@mui/material"
+import { Button, IconButton, Tooltip, Typography } from "@mui/material"
 import { clsx } from "keycloakify/tools/clsx"
 import { Internalization } from "./Internalization"
 import { CommonProps } from "./types"
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 export const Header = ({templateProps: props, getClassName}: CommonProps) => {
 	const {
 		displayRequiredFields,
 		i18n: {
-			msg
+			msg,
+			msgStr
 		},
 		kcContext: {
 			auth,
@@ -27,26 +29,41 @@ export const Header = ({templateProps: props, getClassName}: CommonProps) => {
 	) : null
 
 	const attemptedUsernameElement = (
-		<div className={getClassName("kcFormGroupClass")}>
-			<div id="kc-username">
-				<label id="kc-attempted-username">{auth?.attemptedUsername}</label>
-				<a id="reset-login" href={url.loginRestartFlowUrl}>
-					<div className="kc-login-tooltip">
-						<i className={getClassName("kcResetFlowIcon")}></i>
-						<span className="kc-tooltip-text">{msg("restartLoginTooltip")}</span>
-					</div>
-				</a>
-			</div>
+		<div id="kc-username">
+			<Typography
+				id={"kc-attempted-username"}
+				data-testid="kc-attempted-username"
+				textAlign="center"
+				variant="h2"
+			>{auth?.attemptedUsername}</Typography>
+			<Tooltip
+				title={msgStr("restartLoginTooltip")}
+				describeChild
+			>
+				<IconButton
+					id="reset-login"
+					component="a"
+					data-testid="reset-login"
+					href={url.loginRestartFlowUrl}
+				>
+					<RestartAltIcon />
+				</IconButton>
+			</Tooltip>
 		</div>
 	)
 
-	const headerElement = auth !== undefined && auth.showUsername && !auth.showResetCredentials ? <>
+	let headerElement: JSX.Element
+	if ( auth === undefined || !auth.showUsername || auth.showResetCredentials ) {
+		headerElement = <>
+			<Typography textAlign="center" variant={"h2"} id={"kc-page-title"}
+						data-testid={"kc-page-title"}>{headerNode}</Typography>
+		</>
+	} else {
+		headerElement = <>
 			{showUsernameNode}
 			{attemptedUsernameElement}
 		</>
-		: <>
-			<Typography textAlign="center" variant={"h2"} id={"kc-page-title"} data-testid={"kc-page-title"}>{headerNode}</Typography>
-		</>
+	}
 
 	return <header className={getClassName("kcFormHeaderClass")}>
 		<Internalization templateProps={props} getClassName={getClassName}/>
