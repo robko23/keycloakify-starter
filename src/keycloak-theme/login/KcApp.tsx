@@ -130,7 +130,7 @@ export default function KcApp(props: { kcContext: KcContext; }) {
 							return <SelectAuthenticator {...{kcContext, i18n, classes}}
                                                        doUseDefaultCss={true} Template={TemplateMui}/>
 						case "terms.ftl":
-							return <Terms {...{kcContext, i18n, Template, classes}} doUseDefaultCss={true}/>
+							return <Terms {...{kcContext, i18n, classes}} doUseDefaultCss={true} Template={TemplateMui}/>
 						default:
 							return <Fallback {...{kcContext, i18n, classes}} Template={Template}
 											 doUseDefaultCss={true}/>
