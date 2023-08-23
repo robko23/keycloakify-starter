@@ -14,7 +14,7 @@ import { clsx } from "keycloakify/tools/clsx"
 import { useConstCallback } from "keycloakify/tools/useConstCallback"
 import type { FormEventHandler } from "react"
 import { useMemo, useState } from "react"
-import { mapProviderToIcon } from "../../components/Login/mapProviderToIcon"
+import { mapProviderToIcon } from "../../../../mapProviderToIcon"
 import type { I18n } from "../../i18n"
 import type { KcContext } from "../../kcContext"
 
