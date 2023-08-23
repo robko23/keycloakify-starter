@@ -1,41 +1,60 @@
-import "./KcApp.css";
-import { lazy, Suspense } from "react";
-import type { PageProps } from "keycloakify/account";
-import type { KcContext } from "./kcContext";
-import { useI18n } from "./i18n";
+import { CssBaseline, ThemeProvider } from "@mui/material"
+import type { PageProps } from "keycloakify/account"
+import { lazy, Suspense } from "react"
+import { theme } from "../../theme"
+import { useI18n } from "./i18n"
+import type { KcContext } from "./kcContext"
 
-const Template = lazy(() => import("./Template"));
+const Template = lazy(() => import("./Template"))
+const TemplateMui = lazy(() => import("./TemplateMui"))
 
-const Password = lazy(() => import("./pages/Password"));
-const MyExtraPage1 = lazy(() => import("./pages/MyExtraPage1"));
-const MyExtraPage2 = lazy(() => import("./pages/MyExtraPage2"));
-const Fallback = lazy(()=> import("keycloakify/account"));
+const Password = lazy(() => import("./pages/Password"))
+const Account = lazy(() => import("./pages/Account"))
+const FederatedIdentity = lazy(() => import("./pages/FederatedIdentity"))
+const Totp = lazy(() => import("./pages/Totp"))
 
-const classes: PageProps<any, any>["classes"] = {
-    "kcBodyClass": "my-root-account-class"
-};
+const classes: PageProps<any, any>["classes"] = {}
+
+const AnyFallback = (props: any) => {
+	console.log(props)
+	return <h1>Not yet implemented</h1>
+}
 
 export default function KcApp(props: { kcContext: KcContext; }) {
 
-    const { kcContext } = props;
+	const {kcContext} = props
 
-    const i18n = useI18n({ kcContext });
+	const i18n = useI18n({kcContext})
 
-    if (i18n === null) {
-        return null;
-    }
+	if ( i18n === null ) {
+		return null
+	}
 
-    return (
-        <Suspense>
-            {(() => {
-                switch (kcContext.pageId) {
-                    case "password.ftl": return <Password {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
-                    case "my-extra-page-1.ftl": return <MyExtraPage1 {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
-                    case "my-extra-page-2.ftl": return <MyExtraPage2 {...{ kcContext, i18n, Template, classes }} doUseDefaultCss={true} />;
-                    default: return <Fallback {...{ kcContext, i18n, classes }} Template={Template} doUseDefaultCss={true} />;
-                }
-            })()}
-        </Suspense>
-    );
+	return (
+		<ThemeProvider theme={theme}>
+			<CssBaseline/>
+			<Suspense>
+				{(() => {
+					switch ( kcContext.pageId ) {
+						case "password.ftl":
+							return <Password {...{kcContext, i18n, classes}} Template={TemplateMui}
+											 doUseDefaultCss={false}/>
+						case "account.ftl":
+							return <Account {...{kcContext, i18n, classes}} Template={TemplateMui}
+											doUseDefaultCss={false}/>
+						case "federatedIdentity.ftl":
+							return <FederatedIdentity {...{kcContext, i18n, classes}} Template={TemplateMui}
+													  doUseDefaultCss={false}/>
+						case "totp.ftl":
+							return <Totp {...{kcContext, i18n, classes}} Template={TemplateMui}
+										 doUseDefaultCss={false}/>
+						default:
+							return <AnyFallback {...{kcContext, i18n, classes}} Template={Template}
+												doUseDefaultCss={false}/>
+					}
+				})()}
+			</Suspense>
+		</ThemeProvider>
+	)
 
 }

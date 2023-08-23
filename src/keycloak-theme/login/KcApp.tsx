@@ -1,10 +1,10 @@
 import { CssBaseline, ThemeProvider } from "@mui/material"
 import Fallback, { type PageProps } from "keycloakify/login"
 import React, { lazy, Suspense } from "react"
+import { theme } from "../../theme"
 import { useI18n } from "./i18n"
 import "./KcApp.css"
 import type { KcContext } from "./kcContext"
-import { theme } from "./theme"
 
 const Template = lazy(() => import("./Template"))
 const TemplateMui = lazy(() => import("./TemplateMui"))
@@ -80,7 +80,8 @@ export default function KcApp(props: { kcContext: KcContext; }) {
 											 Template={TemplateMui}/>
 						case "register-user-profile.ftl":
 							return <RegisterUserProfile {...{kcContext, i18n, classes}}
-														doUseDefaultCss={true} Template={TemplateMui}/>
+														doUseDefaultCss={true}
+														Template={TemplateMui}/>
 						case "info.ftl":
 							return <Info {...{kcContext, i18n, classes}} doUseDefaultCss={false}
 										 Template={TemplateMui}/>
@@ -89,48 +90,63 @@ export default function KcApp(props: { kcContext: KcContext; }) {
 										  Template={TemplateMui}/>
 						case "login-reset-password.ftl":
 							return <LoginResetPassword {...{kcContext, i18n, classes}}
-													   doUseDefaultCss={true} Template={TemplateMui}/>
+													   doUseDefaultCss={true}
+													   Template={TemplateMui}/>
 						case "login-verify-email.ftl":
 							return <LoginVerifyEmail {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+													 doUseDefaultCss={true}
+													 Template={TemplateMui}/>
 						case "login-otp.ftl":
 							return <LoginOtp {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+											 doUseDefaultCss={true}
+											 Template={TemplateMui}/>
 						case "login-update-profile.ftl":
 							return <LoginUpdateProfile {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+													   doUseDefaultCss={true}
+													   Template={TemplateMui}/>
 						case "login-update-password.ftl":
 							return <LoginUpdatePassword {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+														doUseDefaultCss={true}
+														Template={TemplateMui}/>
 						case "login-idp-link-confirm.ftl":
 							return <LoginIdpLinkConfirm {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+														doUseDefaultCss={true}
+														Template={TemplateMui}/>
 						case "login-idp-link-email.ftl":
 							return <LoginIdpLinkEmail {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+													  doUseDefaultCss={true}
+													  Template={TemplateMui}/>
 						case "login-page-expired.ftl":
 							return <LoginPageExpired {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+													 doUseDefaultCss={true}
+													 Template={TemplateMui}/>
 						case "login-config-totp.ftl":
 							return <LoginConfigTotp {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+													doUseDefaultCss={true}
+													Template={TemplateMui}/>
 						case "logout-confirm.ftl":
 							return <LogoutConfirm {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+												  doUseDefaultCss={true}
+												  Template={TemplateMui}/>
 						case "update-user-profile.ftl":
 							return <UpdateUserProfile {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+													  doUseDefaultCss={true}
+													  Template={TemplateMui}/>
 						case "idp-review-user-profile.ftl":
 							return <IdpReviewUserProfile {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+														 doUseDefaultCss={true}
+														 Template={TemplateMui}/>
 						case "update-email.ftl":
 							return <UpdateEmail {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+												doUseDefaultCss={true}
+												Template={TemplateMui}/>
 						case "select-authenticator.ftl":
 							return <SelectAuthenticator {...{kcContext, i18n, classes}}
-                                                       doUseDefaultCss={true} Template={TemplateMui}/>
+														doUseDefaultCss={true}
+														Template={TemplateMui}/>
 						case "terms.ftl":
-							return <Terms {...{kcContext, i18n, classes}} doUseDefaultCss={true} Template={TemplateMui}/>
+							return <Terms {...{kcContext, i18n, classes}} doUseDefaultCss={true}
+										  Template={TemplateMui}/>
 						default:
 							return <Fallback {...{kcContext, i18n, classes}} Template={Template}
 											 doUseDefaultCss={true}/>
