@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { IconButton, List, ListItem, ListItemIcon, ListItemText, Tooltip, Typography } from "@mui/material"
 import type { PageProps } from "keycloakify/account/pages/PageProps"
 import React from "react"
-import { mapProviderToIcon } from "../../../login/components/Login/mapProviderToIcon"
+import { mapProviderToIcon } from "../../../../mapProviderToIcon"
 import type { I18n } from "../../i18n"
 import type { KcContext } from "../../kcContext"
 
