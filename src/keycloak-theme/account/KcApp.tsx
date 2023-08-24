@@ -12,6 +12,7 @@ const Password = lazy(() => import("./pages/Password"))
 const Account = lazy(() => import("./pages/Account"))
 const FederatedIdentity = lazy(() => import("./pages/FederatedIdentity"))
 const Totp = lazy(() => import("./pages/Totp"))
+const Sessions = lazy(() => import("./pages/Sessions"))
 
 const classes: PageProps<any, any>["classes"] = {}
 
@@ -48,6 +49,9 @@ export default function KcApp(props: { kcContext: KcContext; }) {
 						case "totp.ftl":
 							return <Totp {...{kcContext, i18n, classes}} Template={TemplateMui}
 										 doUseDefaultCss={false}/>
+						case "sessions.ftl":
+							return <Sessions {...{kcContext, i18n, classes}} Template={TemplateMui}
+											doUseDefaultCss={false}/>
 						default:
 							return <AnyFallback {...{kcContext, i18n, classes}} Template={Template}
 												doUseDefaultCss={false}/>

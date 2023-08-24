@@ -206,6 +206,24 @@ export const {getKcContext} = createGetKcContext<KcContextExtension>({
 				manualUrl: "#",
 				otpCredentials: []
 			}
+		},
+		{
+			pageId: "sessions.ftl",
+			locale: {
+				currentLanguageTag: "cs"
+			},
+			sessions: {
+				sessions: [
+					{
+						expires: "2019-01-01T00:00:00",
+						clients: ["a", "b"],
+						ipAddress: "127.0.0.1",
+						started: "2019-01-01T00:00:00",
+						lastAccess: "2019-01-01T00:00:00",
+						id: "e783eeb5-f428-4228-bec6-d7b69c62b99c"
+					}
+				]
+			}
 		}
 	]
 })
