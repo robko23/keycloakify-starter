@@ -103,7 +103,7 @@ export type KcContextExtension = {
 			client: {
 				name?: string,
 				clientId: string,
-				consentRequired: true
+				consentRequired: boolean
 			},
 			realmRolesAvailable: {
 				description?: string,
@@ -222,6 +222,61 @@ export const {getKcContext} = createGetKcContext<KcContextExtension>({
 						lastAccess: "2019-01-01T00:00:00",
 						id: "e783eeb5-f428-4228-bec6-d7b69c62b99c"
 					}
+				]
+			}
+		},
+		{
+			pageId: "applications.ftl",
+			applications: {
+				applications: [
+					{
+						effectiveUrl: "https://example.com/app",
+						client: {
+							name: "Example Client",
+							clientId: "example-client",
+							consentRequired: false
+						},
+						realmRolesAvailable: [{
+							description: "Security admin",
+							name: "security-admin"
+						}, {
+								description: "Realm admin",
+								name: "realm-admin"
+						}],
+						resourceRolesAvailable: {},
+						clientScopesGranted: [],
+						additionalGrants: []
+					},
+					{
+						effectiveUrl: "https://example.com/app2",
+						client: {
+							name: "Example Client 2",
+							clientId: "example-client2",
+							consentRequired: true
+						},
+						realmRolesAvailable: [{
+							description: "Security admin",
+							name: "security-admin"
+						}, {
+								description: "Realm admin",
+								name: "realm-admin"
+						}],
+						resourceRolesAvailable: {
+							"resource1": [{
+								roleDescription: "Resource 1",
+								roleName: "resource1",
+								clientId: 'example-client2',
+								clientName: "Example Client 2",
+							}, {
+								roleDescription: "Resource 2",
+								roleName: "resource2",
+								clientId: 'example-client2',
+								clientName: "Example Client 2",
+							}]
+						},
+						clientScopesGranted: ["openid"],
+						additionalGrants: ["grant1"]
+					},
 				]
 			}
 		}
